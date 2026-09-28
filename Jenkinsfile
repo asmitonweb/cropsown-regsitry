@@ -30,7 +30,9 @@ pipeline {
 
     environment {
         AWS_REGION     = 'ap-south-1'
-        ECR_BASE       = 'openg2p/cropsown-registry'
+        ECR_BASE       = 'gen2/cropsown-registry'
+        // The dashboard service follows the openg2p/<registry>/<image> convention.
+        DASHBOARD_API_ECR = 'openg2p/cropsown-registry/dashboard-api'
 
         HELM_NAMESPACE = 'crop'
         HELM_CHART_DIR = 'helm/openg2p-cropsown-registry'
@@ -166,6 +168,12 @@ pipeline {
                                 -f "docker/${SVC}/Dockerfile" \
                                 -t "${IMAGE}:${IMAGE_TAG}" -t "${IMAGE}:${BRANCH_NAME}" .
 
+                            # ECR does not create repositories on push.
+                            aws ecr describe-repositories --region "${AWS_REGION}" \
+                                --repository-names "${ECR_BASE}/${SVC}" >/dev/null 2>&1 \
+                              || aws ecr create-repository --region "${AWS_REGION}" \
+                                    --repository-name "${ECR_BASE}/${SVC}" >/dev/null
+
                             docker push "${IMAGE}:${IMAGE_TAG}"
                             docker push "${IMAGE}:${BRANCH_NAME}"
 
@@ -176,7 +184,7 @@ pipeline {
 
                         # The dashboard service, from its own repository (cloned by
                         # 'Checkout dashboard-api'), with its own build context.
-                        IMAGE="${ECR_REGISTRY}/${ECR_BASE}/dashboard-api"
+                        IMAGE="${ECR_REGISTRY}/${DASHBOARD_API_ECR}"
                         echo "--- dashboard-api (${DASHBOARD_API_REF_USED} @ ${DASHBOARD_API_SHA}) -> ${IMAGE}:${IMAGE_TAG} ---"
                         docker build --pull \
                             --label org.opencontainers.image.source="${DASHBOARD_API_REPO}" \
@@ -348,7 +356,7 @@ URL:        ${env.BUILD_URL}
 Console:    ${env.BUILD_URL}console
 
 If the images built and pushed they are in ECR under
-openg2p/cropsown-registry/*:${env.IMAGE_TAG}, and the deploy can be re-run by hand
+gen2/cropsown-registry/*:${env.IMAGE_TAG}, and the deploy can be re-run by hand
 from vpn-agent2 with ci/deploy-crop-dev.sh.
 
 Regards,

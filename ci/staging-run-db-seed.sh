@@ -42,7 +42,7 @@ CHART="${CHART:-helm/openg2p-cropsown-registry}"
 PULL_SECRET="${PULL_SECRET:-cropsown-ecr}"
 SEED_TIMEOUT="${SEED_TIMEOUT:-900s}"
 ECR_HOST="$(cat .ecr-registry 2>/dev/null || echo "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com")"
-IMAGE_REPO="${ECR_HOST}/openg2p/cropsown-registry/db-seed"
+IMAGE_REPO="${ECR_HOST}/gen2/cropsown-registry/db-seed"
 JOB="${RELEASE}-db-seed"
 WORK="$(mktemp -d)"; trap 'rm -rf "$WORK"' EXIT
 
@@ -61,7 +61,7 @@ fi
 # Only a definite "not found" stops the run: the deploy node has the aws CLI but
 # no AWS credentials, and every lookup there fails.
 if command -v aws >/dev/null 2>&1; then
-  if ! OUT="$(aws ecr describe-images --region "$AWS_REGION" --repository-name openg2p/cropsown-registry/db-seed \
+  if ! OUT="$(aws ecr describe-images --region "$AWS_REGION" --repository-name gen2/cropsown-registry/db-seed \
         --image-ids imageTag="$TAG" 2>&1 >/dev/null)"; then
     case "$OUT" in
       *ImageNotFoundException*|*RepositoryNotFoundException*)

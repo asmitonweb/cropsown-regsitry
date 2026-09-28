@@ -27,7 +27,8 @@
 #   AWS_ACCOUNT_ID   owner of the ECR registry                      required
 #   KUBECONFIG       kubeconfig for the dev cluster                 required
 #   AWS_REGION       default ap-south-1
-#   ECR_BASE         default openg2p/cropsown-registry
+#   ECR_BASE         default gen2/cropsown-registry
+#   DASHBOARD_API_ECR default openg2p/cropsown-registry/dashboard-api
 #   HELM_RELEASE     default cropsown-registry
 #   HELM_NAMESPACE   default crop
 #   HELM_CHART_DIR   default helm/openg2p-cropsown-registry
@@ -38,7 +39,7 @@
 #   SEED_MINIO_ASSETS true|false, default false db-seed also uploads images/templates to MinIO
 #   DASHBOARD_API    true|false, default true   deploy the cs_rpt_* reporting views and
 #                                               cropsown-registry-dashboard-api (image
-#                                               ${ECR_BASE}/dashboard-api:<tag>)
+#                                               ${DASHBOARD_API_ECR}:<tag>)
 #   HELM_TIMEOUT     default 40m
 #   ROLLOUT_TIMEOUT  per-Deployment rollout wait, default 420s
 #   PULL_SECRET      ECR imagePullSecret to write/use, default cropsown-ecr
@@ -49,7 +50,8 @@ TAG="${1:-${TAG:-}}"
 : "${AWS_ACCOUNT_ID:?set AWS_ACCOUNT_ID}"
 : "${KUBECONFIG:?set KUBECONFIG}"
 AWS_REGION="${AWS_REGION:-ap-south-1}"
-ECR_BASE="${ECR_BASE:-openg2p/cropsown-registry}"
+ECR_BASE="${ECR_BASE:-gen2/cropsown-registry}"
+DASHBOARD_API_ECR="${DASHBOARD_API_ECR:-openg2p/cropsown-registry/dashboard-api}"
 HELM_RELEASE="${HELM_RELEASE:-cropsown-registry}"
 HELM_NAMESPACE="${HELM_NAMESPACE:-crop}"
 HELM_CHART_DIR="${HELM_CHART_DIR:-helm/openg2p-cropsown-registry}"
@@ -220,7 +222,7 @@ reporting:
     enabled: ${DASHBOARD_API}
 dashboardApi:
   enabled: ${DASHBOARD_API}
-  image: {repository: '${ECR}/dashboard-api', tag: '${TAG}'}
+  image: {repository: '${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DASHBOARD_API_ECR}', tag: '${TAG}'}
 EOF
 if [ "$DASHBOARD_API" = "true" ] && [ -n "$BASE_DOMAIN" ]; then
   # A private route for developers and tools, on the namespace's internal

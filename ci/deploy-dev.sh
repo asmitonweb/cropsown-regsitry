@@ -31,7 +31,7 @@
 #   AWS_ACCOUNT_ID  account that owns the ECR registry (or set ECR_REGISTRY)
 #   ECR_REGISTRY    full registry host; overrides AWS_ACCOUNT_ID + AWS_REGION
 #   AWS_REGION      default ap-south-1
-#   ECR_BASE        default openg2p/cropsown-registry
+#   ECR_BASE        default gen2/cropsown-registry
 #   NAMESPACE       default crop
 #   RELEASE_NAME    default cropsown-registry
 #   CHART_DIR       default helm/openg2p-cropsown-registry
@@ -60,7 +60,7 @@ cd "$REPO_ROOT"
 
 TAG="${1:-${TAG:-}}"
 AWS_REGION="${AWS_REGION:-ap-south-1}"
-ECR_BASE="${ECR_BASE:-openg2p/cropsown-registry}"
+ECR_BASE="${ECR_BASE:-gen2/cropsown-registry}"
 NAMESPACE="${NAMESPACE:-crop}"
 RELEASE_NAME="${RELEASE_NAME:-cropsown-registry}"
 CHART_DIR="${CHART_DIR:-helm/openg2p-cropsown-registry}"
