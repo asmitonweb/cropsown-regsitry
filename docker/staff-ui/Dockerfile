@@ -17,7 +17,7 @@
 # fails the build if they drift.
 #
 # Build context = repo root.
-ARG RP_VERSION=1.2.1
+ARG RP_VERSION=1.2.2-rc.544
 FROM openg2p/openg2p-registry-staff-ui:${RP_VERSION}
 
 # Browser-facing origin of the dashboard service. It is compiled into the client
