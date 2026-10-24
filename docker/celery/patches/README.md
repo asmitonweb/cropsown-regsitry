@@ -26,3 +26,10 @@ of raising, so retries are idempotent. Everything else the worker does
 
 Keep this in sync when bumping `RP_VERSION`: re-extract the base file and
 re-apply the changes if the upstream worker changed.
+
+The register-ingest task also uses a dedicated async engine with `NullPool`.
+Task modules maintain separate event loops, so the shared `Engine` pool can
+return an asyncpg connection created on a different loop after ODK ingestion.
+That fails promotion with `Future attached to a different loop`, even after
+approval succeeds. A connection is now closed when returned by this task,
+preventing reuse across loops without changing the other workers' pools.

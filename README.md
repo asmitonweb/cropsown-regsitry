@@ -63,6 +63,9 @@ tables from the ERD are seeded as attribute lookups — see
 
 ## ODK & Field Data Collection Integration
 
+For configuration requirements, fresh-only recovery, and approval-through-register
+acceptance, see the [ODK operations runbook](docs/odk-operations.md).
+
 The **Crop Sown Registry** integrates with **ODK Collect** (mobile field app) and **ODK Central** to enable agricultural extension officers and field enumerators to capture seasonal farming data across 4 distinct lifecycle stages: **Planning**, **Land Preparation & Cultivation**, **Sowing**, and **Harvesting**.
 
 ### 1. Overview & System Architecture

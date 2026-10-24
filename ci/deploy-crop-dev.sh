@@ -252,11 +252,16 @@ registry:
     # but carried no AWE settings (only the staff API did), so the extension fell
     # back to the docker-compose http://awe:8000. Same values as the staff API's.
     envVars:
+      KEYCLOAK_BASE_URL: '${KEYCLOAK_URL}'
+      KEYCLOAK_REALM: staff
+      AUTH_CLIENT_ID: ${HELM_RELEASE}-staff-portal
       REGISTRY_CELERY_WORKERS_AWE_ENABLED: 'true'
       REGISTRY_CELERY_WORKERS_AWE_BASE_URL: http://commons-services-awe.commons.svc.cluster.local
       REGISTRY_CELERY_WORKERS_AWE_DEFAULT_CALLBACK_URL: http://${HELM_RELEASE}-staff-portal-api.${HELM_NAMESPACE}.svc.cluster.local/awe/webhooks/decision
       REGISTRY_CELERY_WORKERS_AWE_CALLBACK_SECRET_ID: ${HELM_RELEASE}
     envVarsFrom:
+      AUTH_CLIENT_SECRET:
+        secretKeyRef: {name: ${HELM_RELEASE}-staff-portal, key: client_secret}
       REGISTRY_CELERY_WORKERS_AWE_CALLBACK_HMAC_SECRET:
         secretKeyRef: {name: ${HELM_RELEASE}-awe-callback-hmac, key: hmac-secret}
   staffUi:

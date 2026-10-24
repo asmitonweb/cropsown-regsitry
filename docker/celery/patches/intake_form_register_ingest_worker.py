@@ -5,7 +5,8 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Date as SQLDate, func, inspect, or_, select
-from sqlalchemy.ext.asyncio import async_sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy.pool import NullPool
 
 from openg2p_registry_core.models import (
     ApprovalStatusEnum,
@@ -49,7 +50,10 @@ _DOMAIN_FACTORY_CLASS = "G2PRegisterDomainFactory"
 
 _config = Settings.get_config()
 _logger = logging.getLogger(_config.logging_default_logger_name)
-_async_engine = Engine.get_async_engine()
+# Other Celery task modules run on separate event loops. Sharing Engine's
+# pooled async engine can hand this task an asyncpg connection owned by another
+# loop. Keep register promotion isolated and close connections after each use.
+_async_engine = create_async_engine(Engine.construct_async_db_datasource(), poolclass=NullPool)
 _loop = asyncio.new_event_loop()
 asyncio.set_event_loop(_loop)
 

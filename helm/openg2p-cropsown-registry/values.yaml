@@ -78,11 +78,21 @@ registry:
       repository: openg2p/openg2p-cropsown-registry-celery
       tag: 0.0.0-develop
     envVars:
+      # The ODK finalizer acquires its AWE bearer token from these settings.
+      # Use the same portal client and Secret as the staff API.
+      KEYCLOAK_BASE_URL: '{{ tpl .Values.global.keycloakBaseUrl $ }}'
+      KEYCLOAK_REALM: '{{ tpl (default "staff" .Values.global.keycloakRealm) $ }}'
+      AUTH_CLIENT_ID: '{{ tpl (default (printf "%s-staff-portal" .Release.Name) .Values.global.authClientId) $ }}'
       REGISTRY_CELERY_WORKERS_MASTER_DATA_DB_HOSTNAME: "commons-postgresql"
       # The subchart sets no --concurrency, so prefork starts one process per
       # CPU (48 on the dev node), each loading the whole app: the worker sat at
       # 3.5Gi of its 4Gi limit. 8 is a throughput choice with memory headroom.
       CELERY_OPTS: "worker -Q registry_worker_queue --concurrency=8 --loglevel=info"
+    envVarsFrom:
+      AUTH_CLIENT_SECRET:
+        secretKeyRef:
+          name: '{{ tpl (default (printf "%s-staff-portal" .Release.Name) .Values.global.authClientSecret) $ }}'
+          key: '{{ tpl (default "client_secret" .Values.global.authClientSecretKey) $ }}'
   celeryBeat:
     image:
       repository: openg2p/openg2p-cropsown-registry-celery
