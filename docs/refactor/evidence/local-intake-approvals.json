@@ -1,0 +1,69 @@
+{
+  "checked_at": "2026-10-25T12:43:35.357916+00:00",
+  "target": "local Commons + Farmer + Crop",
+  "result": "PASS",
+  "submission_id": "de07aecd-0989-4489-8cf5-070611d2c919",
+  "business_awe_request_id": "987d1987-2fcd-4964-9b9d-65f5a60d72bb",
+  "reference_awe_request_id": "e14c889d-2d2a-4fe3-a479-647acb6ad098",
+  "reference_cr_id": "cb733ca4-ef17-4580-9dce-f9e5d269bf31",
+  "native_decisions": [
+    {
+      "kind": "business",
+      "task_id": "10b5d722-9540-4a38-8bf5-57c97f456932",
+      "request_id": "987d1987-2fcd-4964-9b9d-65f5a60d72bb",
+      "http": 201
+    },
+    {
+      "kind": "reference",
+      "task_id": "93ae40a8-e26d-49d5-a93d-d2579f07505b",
+      "request_id": "e14c889d-2d2a-4fe3-a479-647acb6ad098",
+      "http": 201
+    }
+  ],
+  "checks": {
+    "approved_reference": true,
+    "stable_link_matches": true,
+    "farmer_id_matches": true,
+    "crop_name_matches_authoritative_source": true,
+    "crop_name_populated": true,
+    "crop_active": true,
+    "crop_year_preserved": true,
+    "season_preserved": true
+  },
+  "business_approved_before_reference": true,
+  "activation_held_until_reference_approved": true,
+  "lookup_transient_failure_recovered": true,
+  "original_intake_processed_without_business_approval_replay": true,
+  "native_queue_routing": "configured worker_queue",
+  "callback_url_and_signing_configured": true,
+  "manual_approval_or_callback_forgery": false,
+  "identity_grants_modified_by_reference_update": false,
+  "personal_data_in_evidence": false,
+  "retained_failed_attempt": {
+    "submission_id": "56e1eedb-9dc8-4b67-bf20-d337b00eee2e",
+    "reason": "Worker AWE callback configuration was absent before correction; approved AWE decision has no delivery.",
+    "state": "Business approved, activation safely held; original request/history retained.",
+    "recovery_gate": "Native AWE has no callback-update administration endpoint; no forced database approval applied."
+  },
+  "validation": {
+    "native_callback_guard": {
+      "result": "PASS",
+      "tests": 1,
+      "database": "disposable PostgreSQL15",
+      "cases": [
+        "missing callback URL blocks request creation",
+        "missing callback secret blocks request creation",
+        "configured UPDATE routes through approved old Woreda"
+      ]
+    },
+    "native_worker_custom_queue_registration": "PASS",
+    "native_beat_custom_queue_registration": "PASS",
+    "full_previous_runner": "Not rerun for this bounded fix; interrupted results retained separately."
+  },
+  "runtime_image_ids": {
+    "crop-registry-staff-portal-api--pod": "sha256:5770191f6278f47792662d236761f39be8043440e565f312df337f92408d4430",
+    "crop-registry-partner-api--pod": "sha256:df1004db3f6c3470e6850d1a624b173f9d7f56a83a04a25d3af4ae2d06a8f631",
+    "crop-registry-celery-worker": "sha256:0a20c4bf7358e232330cc39a3a14bb0c2fb42b79b02e779d18365b6e07a0575b",
+    "crop-registry-celery-beat-producer": "sha256:0a20c4bf7358e232330cc39a3a14bb0c2fb42b79b02e779d18365b6e07a0575b"
+  }
+}

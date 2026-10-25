@@ -265,6 +265,8 @@ class NativeReferenceTests(unittest.IsolatedAsyncioTestCase):
         class Integration:
             def _awe_enabled(self):
                 return True
+            def _callback_params(self):
+                return "http://synthetic-registry.invalid/callback", "synthetic-callback"
             async def start_change_request_workflow(self, session, cr, context, **kwargs):
                 contexts.append(context)
                 cr.awe_request_id = "synthetic-awe-update"
@@ -278,6 +280,14 @@ class NativeReferenceTests(unittest.IsolatedAsyncioTestCase):
             request = await self.service.queue_current_update(session, replace(self.snapshot, source_version=200,
                 profile={**self.snapshot.profile, "woreda_id":"proposed-woreda", "first_name":"Proposed"}))
             entry = await session.get(ledger.FarmerWorkflowOutbox, request.native_cr_id)
+            from unittest.mock import patch
+            for callback in ((None, "synthetic-callback"),
+                             ("http://synthetic-registry.invalid/callback", None)):
+                with patch.object(Integration, "_callback_params", return_value=callback):
+                    with self.assertRaisesRegex(Error, "FARMER_REFERENCE_AWE_CALLBACK_REQUIRED"):
+                        await workflow.deliver_workflow(session, entry, directory=Directory(), bearer_provider=bearer, integration=Integration())
+                self.assertEqual(contexts, [])
+                self.assertEqual(entry.state, "PENDING")
             await workflow.deliver_workflow(session, entry, directory=Directory(), bearer_provider=bearer, integration=Integration())
             self.assertEqual(contexts, [[{"farmer_reference_woreda_id":"woreda-1", "farmer_reference_approver_ids":["old-reviewer"]}]])
             self.assertEqual(entry.state, "DELIVERED")
