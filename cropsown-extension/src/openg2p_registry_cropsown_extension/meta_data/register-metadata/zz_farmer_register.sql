@@ -5,7 +5,7 @@
 INSERT INTO "public"."g2p_register_definitions"
 ("register_id","register_mnemonic","register_subject","register_description","master_register_id","register_rank","functional_id_generation_required","register_purpose","program_id","program_mnemonic","register_icon","has_image","dedup_is_enabled","dedup_threshold_score","completion_score_required","outgest_applicable","requires_registrant_authentication","registrant_authentication_validity_days","registrant_re_auth_warning_days_before")
 VALUES
-('fa120001-0000-4000-8000-000000000001','Farmer','Farmers','Farmer Register',NULL,1,'FALSE','REGISTER',NULL,NULL,'','FALSE','FALSE',55,'FALSE','FALSE','FALSE',730,30)
+('fa120001-0000-4000-8000-000000000001','Farmer','Farmers','Farmer Register',NULL,2,'FALSE','REGISTER',NULL,NULL,'','FALSE','FALSE',55,'FALSE','FALSE','FALSE',730,30)
 ON CONFLICT ("register_id") DO NOTHING;
 
 -- 2) Farmer identity section (data routed to the Farmer register via section_register_id)
@@ -47,3 +47,9 @@ ON CONFLICT ("register_id") DO UPDATE SET
 END,
 "deduplicate_schema" = COALESCE("g2p_register_schemas"."deduplicate_schema", EXCLUDED."deduplicate_schema"),
 "filter_schema" = COALESCE("g2p_register_schemas"."filter_schema", EXCLUDED."filter_schema");
+
+-- Crop Sown is the registry's working register: the staff portal opens the
+-- lowest-ranked register first, so Farmer (a reference, entered through Crop
+-- Sown intakes) ranks after it.
+UPDATE "public"."g2p_register_definitions" SET "register_rank" = 2
+WHERE "register_id" = 'fa120001-0000-4000-8000-000000000001' AND "register_rank" <> 2;
