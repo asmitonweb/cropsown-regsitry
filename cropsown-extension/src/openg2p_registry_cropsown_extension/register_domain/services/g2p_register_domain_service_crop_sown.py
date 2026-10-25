@@ -35,6 +35,12 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
         await refresh_crop_name_on_ingest(session, register_row)
 
     async def validate_domain_attributes(self, records: list[dict], session=None, **kwargs):
+        from .identity_verification import OANRegistrantAuthenticationService
+        verifier = OANRegistrantAuthenticationService.get_component()
+        if verifier:
+            problems = await verifier.verify_records(records, {}, "CropSown")
+            if problems:
+                validation_error("; ".join(problems))
         section_id = kwargs.get("section_id")
         for record in records:
             sec_id = section_id or record.get("section_id") or record.get("_section_id")

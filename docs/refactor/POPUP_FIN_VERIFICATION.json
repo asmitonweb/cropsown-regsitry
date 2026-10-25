@@ -1,0 +1,20 @@
+{
+  "registry": "cropsown",
+  "native_tests_passed": 57,
+  "database_dependent_tests_skipped": 65,
+  "metadata_passes": 2,
+  "metadata_sql_errors": 0,
+  "native_registration": "PASS",
+  "typescript": "PASS",
+  "linux_production_ui_image": "oan/crop-staff-ui:popup-only",
+  "linux_production_ui_build": "PASS",
+  "browser_widget_checks": 26,
+  "browser_scope": "production widget with request-handler fixtures; not live eSignet",
+  "runtime_deployed": false,
+  "source_sha256": {
+    "cropsown-extension/src/openg2p_registry_cropsown_extension/register_domain/services/identity_verification.py": "d48a1f4c50a13802e553446bbaf17f950f76c93cc24d5391d4c1c97d4b09a840",
+    "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql": "66066c616268442cbdfe7f0786a8776da32dc8f3e6e819f2a9e4a45e61232046",
+    "ui/staff-ui/overrides/src/oan/widgets/IdentityVerificationWidget.tsx": "4a69de40e3fc857156dfd2555b1e78acec796cf8d3eb27b140966b1d82f1672b",
+    "ui/staff-ui/overrides/src/oan/widgets/faydaPopup.ts": "9e6762292f0d7a66db6d8a9bb12845b48507c65a3a6f879b93c17e6233f4a8fa"
+  }
+}

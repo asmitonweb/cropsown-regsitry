@@ -14,6 +14,12 @@ from pydantic import field_validator
 
 
 class G2PSchemaCropSown:
+    fayda_fin: Optional[str] = None
+    identity_verification_id: Optional[str] = None
+    last_authentication_status: Optional[str] = None
+    last_authenticated_on: Optional[str] = None
+    authentication_expiry_date: Optional[str] = None
+
 
     rejection_reason: Optional[str] = None
     edit_count: Optional[int] = None

@@ -81,6 +81,13 @@
     },
     {
       "pass": 1,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
+      "sha256": "66066c616268442cbdfe7f0786a8776da32dc8f3e6e819f2a9e4a45e61232046",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 1,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzz_farmer_reference_awe.sql",
       "sha256": "7c9ceee72895cbf7af542465204678ce944a8edcec626ca836dcc9234be6cfdc",
       "sqlstate_errors": [],
@@ -258,6 +265,13 @@
       "pass": 2,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_farmer_register.sql",
       "sha256": "e698db2e45c9e6d45cd2892e04f43bb2744fd8070faff76f97d28149d4e05dca",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 2,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
+      "sha256": "66066c616268442cbdfe7f0786a8776da32dc8f3e6e819f2a9e4a45e61232046",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },

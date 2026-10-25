@@ -941,6 +941,31 @@
           "nullable": true,
           "primary_key": false
         },
+        "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "identity_verification_id": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "last_authentication_status": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "last_authenticated_on": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "authentication_expiry_date": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
         "farmer_uuid": {
           "type": "VARCHAR",
           "nullable": true,
@@ -1196,6 +1221,31 @@
           "nullable": false,
           "primary_key": false
         },
+        "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "identity_verification_id": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "last_authentication_status": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "last_authenticated_on": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "authentication_expiry_date": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
         "farmer_uuid": {
           "type": "VARCHAR",
           "nullable": true,
@@ -1422,6 +1472,31 @@
           "primary_key": false
         },
         "record_status_reason": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "identity_verification_id": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "last_authentication_status": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "last_authenticated_on": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "authentication_expiry_date": {
           "type": "VARCHAR",
           "nullable": true,
           "primary_key": false
@@ -8105,6 +8180,10 @@
       "sha256": "e698db2e45c9e6d45cd2892e04f43bb2744fd8070faff76f97d28149d4e05dca"
     },
     {
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
+      "sha256": "66066c616268442cbdfe7f0786a8776da32dc8f3e6e819f2a9e4a45e61232046"
+    },
+    {
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzz_farmer_reference_awe.sql",
       "sha256": "7c9ceee72895cbf7af542465204678ce944a8edcec626ca836dcc9234be6cfdc"
     },
@@ -9268,6 +9347,27 @@
                   "widget-readonly": false,
                   "widget-required": true,
                   "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id"
+                },
+                {
+                  "widget": "oan-identity-verification",
+                  "widget-id": "identity_verification",
+                  "widget-type": "input",
+                  "widget-label": "Fayda verification",
+                  "widget-readonly": false,
+                  "widget-required": false,
+                  "widget-data-path": {
+                    "status": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                    "expiresOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.authentication_expiry_date",
+                    "verifiedOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authenticated_on",
+                    "foundationalId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                    "verificationId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.identity_verification_id"
+                  },
+                  "widget-data-options": {
+                    "registerId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                    "fieldPrefix": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                    "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                    "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
+                  }
                 }
               ],
               "panel-id": "farmer_reference_pair",
@@ -9336,6 +9436,27 @@
                       "widget-readonly": false,
                       "widget-required": true,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                    },
+                    {
+                      "widget": "oan-identity-verification",
+                      "widget-id": "identity_verification",
+                      "widget-type": "input",
+                      "widget-label": "Fayda verification",
+                      "widget-readonly": false,
+                      "widget-required": false,
+                      "widget-data-path": {
+                        "status": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                        "expiresOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.authentication_expiry_date",
+                        "verifiedOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authenticated_on",
+                        "foundationalId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                        "verificationId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.identity_verification_id"
+                      },
+                      "widget-data-options": {
+                        "registerId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                        "fieldPrefix": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                        "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                        "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
+                      }
                     }
                   ],
                   "panel-id": "vertical_panel_cs_cropsown_record_2",
@@ -9434,6 +9555,27 @@
                       "widget-readonly": false,
                       "widget-required": true,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                    },
+                    {
+                      "widget": "oan-identity-verification",
+                      "widget-id": "identity_verification",
+                      "widget-type": "input",
+                      "widget-label": "Fayda verification",
+                      "widget-readonly": false,
+                      "widget-required": false,
+                      "widget-data-path": {
+                        "status": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                        "expiresOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.authentication_expiry_date",
+                        "verifiedOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authenticated_on",
+                        "foundationalId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                        "verificationId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.identity_verification_id"
+                      },
+                      "widget-data-options": {
+                        "registerId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                        "fieldPrefix": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                        "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                        "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
+                      }
                     }
                   ],
                   "panel-id": "vertical_panel_cs_intake_record_1",
@@ -14061,6 +14203,27 @@
                       "widget-label": "Fayda ID",
                       "widget-readonly": true,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                    },
+                    {
+                      "widget": "oan-identity-verification",
+                      "widget-id": "identity_verification",
+                      "widget-type": "input",
+                      "widget-label": "Fayda verification",
+                      "widget-readonly": false,
+                      "widget-required": false,
+                      "widget-data-path": {
+                        "status": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                        "expiresOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.authentication_expiry_date",
+                        "verifiedOn": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authenticated_on",
+                        "foundationalId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                        "verificationId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.identity_verification_id"
+                      },
+                      "widget-data-options": {
+                        "registerId": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                        "fieldPrefix": "6b06a95a-9a6c-5a33-a33d-c1625716c59c",
+                        "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                        "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
+                      }
                     }
                   ],
                   "panel-id": "vertical_panel_cs_production_farmer_1",

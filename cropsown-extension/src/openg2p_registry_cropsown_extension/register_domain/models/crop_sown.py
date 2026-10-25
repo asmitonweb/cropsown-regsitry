@@ -29,6 +29,13 @@ from ..services import G2PRegisterDomainServiceCropSown
 
 
 class G2PCropSown:
+    # Popup FIN evidence, distinct from the approved reference UID/FAN16.
+    fayda_fin: Mapped[str] = mapped_column(String, nullable=True)
+    identity_verification_id: Mapped[str] = mapped_column(String, nullable=True)
+    last_authentication_status: Mapped[str] = mapped_column(String, nullable=True)
+    last_authenticated_on: Mapped[str] = mapped_column(String, nullable=True)
+    authentication_expiry_date: Mapped[str] = mapped_column(String, nullable=True)
+
 
     # ── Farmer (identified, held in the farmer registry) ──────────────────────
     farmer_uuid: Mapped[str] = mapped_column(String, nullable=True)
