@@ -1,8 +1,8 @@
-test_ambiguous_or_mismatched_existing_identity_fails_closed (test_farmer_reference_onboarding.OnboardingTests.test_ambiguous_or_mismatched_existing_identity_fails_closed) ... Executing <Task pending name='Task-1' coro=<OnboardingTests.asyncSetUp() running at /work/cropsown-extension/tests/test_farmer_reference_onboarding.py:57> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/local/lib/python3.12/asyncio/futures.py:389, Task.task_wakeup()] created at /usr/local/lib/python3.12/asyncio/base_events.py:448> cb=[_run_until_complete_cb() at /usr/local/lib/python3.12/asyncio/base_events.py:181] created at /usr/local/lib/python3.12/asyncio/runners.py:100> took 0.156 seconds
+test_ambiguous_or_mismatched_existing_identity_fails_closed (test_farmer_reference_onboarding.OnboardingTests.test_ambiguous_or_mismatched_existing_identity_fails_closed) ... Executing <Task pending name='Task-1' coro=<OnboardingTests.asyncSetUp() running at /work/cropsown-extension/tests/test_farmer_reference_onboarding.py:58> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/local/lib/python3.12/asyncio/futures.py:389, Task.task_wakeup()] created at /usr/local/lib/python3.12/asyncio/base_events.py:448> cb=[_run_until_complete_cb() at /usr/local/lib/python3.12/asyncio/base_events.py:181] created at /usr/local/lib/python3.12/asyncio/runners.py:100> took 0.160 seconds
 ok
 test_approval_releases_existing_dependency_without_recreating_intake (test_farmer_reference_onboarding.OnboardingTests.test_approval_releases_existing_dependency_without_recreating_intake) ... ok
-test_concurrent_duplicate_submission_and_restart_are_idempotent (test_farmer_reference_onboarding.OnboardingTests.test_concurrent_duplicate_submission_and_restart_are_idempotent) ... Executing <Task pending name='Task-39' coro=<OnboardingTests.submit() running at /work/cropsown-extension/tests/test_farmer_reference_onboarding.py:77> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/local/lib/python3.12/asyncio/futures.py:389, Task.task_wakeup()] created at /usr/local/lib/python3.12/asyncio/base_events.py:448> cb=[gather.<locals>._done_callback() at /usr/local/lib/python3.12/asyncio/tasks.py:767] created at /usr/local/lib/python3.12/asyncio/tasks.py:695> took 0.119 seconds
-ok
+test_concurrent_duplicate_submission_and_restart_are_idempotent (test_farmer_reference_onboarding.OnboardingTests.test_concurrent_duplicate_submission_and_restart_are_idempotent) ... ok
+test_concurrent_fin_fan_aliases_reuse_one_pending_reference_without_identity_conversion (test_farmer_reference_onboarding.OnboardingTests.test_concurrent_fin_fan_aliases_reuse_one_pending_reference_without_identity_conversion) ... ok
 test_duplicate_update_and_rejection_preserve_approved_local (test_farmer_reference_onboarding.OnboardingTests.test_duplicate_update_and_rejection_preserve_approved_local) ... ok
 test_existing_approved_exact_reference_is_adopted_without_overwrite (test_farmer_reference_onboarding.OnboardingTests.test_existing_approved_exact_reference_is_adopted_without_overwrite) ... ok
 test_expired_lookup_and_unverified_objects_rejected (test_farmer_reference_onboarding.OnboardingTests.test_expired_lookup_and_unverified_objects_rejected) ... ok
@@ -11,12 +11,11 @@ test_no_draft_side_effect_and_pending_dependency_cannot_activate (test_farmer_re
 test_rejected_add_blocks_retries_and_other_submissions (test_farmer_reference_onboarding.OnboardingTests.test_rejected_add_blocks_retries_and_other_submissions) ... ok
 test_source_person_cannot_be_replaced_for_same_farmer_id (test_farmer_reference_onboarding.OnboardingTests.test_source_person_cannot_be_replaced_for_same_farmer_id) ... ok
 test_stale_pending_update_rechecked_after_newer_approval (test_farmer_reference_onboarding.OnboardingTests.test_stale_pending_update_rechecked_after_newer_approval) ... ok
-test_twenty_concurrent_submissions_reuse_one_reference_cr_and_outbox (test_farmer_reference_onboarding.OnboardingTests.test_twenty_concurrent_submissions_reuse_one_reference_cr_and_outbox) ... Executing <Task pending name='Task-213' coro=<OnboardingTests.test_twenty_concurrent_submissions_reuse_one_reference_cr_and_outbox() running at /work/cropsown-extension/tests/test_farmer_reference_onboarding.py:103> wait_for=<_GatheringFuture pending cb=[Task.task_wakeup()] created at /usr/local/lib/python3.12/asyncio/tasks.py:712> cb=[_run_until_complete_cb() at /usr/local/lib/python3.12/asyncio/base_events.py:181] created at /usr/local/lib/python3.12/asyncio/runners.py:100> took 0.167 seconds
-ok
+test_twenty_concurrent_submissions_reuse_one_reference_cr_and_outbox (test_farmer_reference_onboarding.OnboardingTests.test_twenty_concurrent_submissions_reuse_one_reference_cr_and_outbox) ... ok
 test_uid_rotation_requires_update_approval_before_new_domain_reuse (test_farmer_reference_onboarding.OnboardingTests.test_uid_rotation_requires_update_approval_before_new_domain_reuse) ... ok
 test_unreferenced_kafka_update_does_not_onboard (test_farmer_reference_onboarding.OnboardingTests.test_unreferenced_kafka_update_does_not_onboard) ... ok
 
 ----------------------------------------------------------------------
-Ran 14 tests in 18.497s
+Ran 15 tests in 21.489s
 
 OK

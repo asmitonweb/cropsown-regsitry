@@ -45,6 +45,7 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
                 validation_error("; ".join(problems))
         section_id = kwargs.get("section_id")
         for record in records:
+            record.pop("farmer_reference_status", None)
             sec_id = section_id or record.get("section_id") or record.get("_section_id")
 
             if "latitude" in record and record["latitude"] is not None:
@@ -109,7 +110,7 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
                 self._validate_farmer_id(record)
             self._validate_fayda_fan_id(record)
 
-            if session and (record.get("fayda_fan_id") or record.get("fayda_id")):
+            if session and (record.get("farmer_id") or record.get("fayda_fin") or record.get("fayda_fan_id") or record.get("fayda_id")):
                 await self._validate_fayda_season_and_year(record, session)
 
     async def _validate_immutability_of_season_and_year(self, record: dict, session, **kwargs) -> None:
@@ -223,11 +224,16 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
         for the given Fayda ID + Crop Year + Production Season before proceeding to subsequent sections.
         """
         fayda_fan_id = record.get("fayda_fan_id") or record.get("fayda_id")
+        identity_column, identity_value = (
+            ("fayda_fan_id", fayda_fan_id) if fayda_fan_id else
+            ("fayda_fin", record.get("fayda_fin")) if record.get("fayda_fin") else
+            ("farmer_id", record.get("farmer_id"))
+        )
         crop_year = record.get("crop_year")
         prod_season = record.get("production_season")
         submission_id = record.get("submission_id")
 
-        if not fayda_fan_id or not session:
+        if not identity_value or not session:
             return
 
         requires_existing_record = False
@@ -253,9 +259,9 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
             query = (
                 "SELECT internal_record_id::text, crop_year, production_season "
                 "FROM g2p_register_crop_sowns "
-                "WHERE fayda_fan_id = :fayda AND record_status = 'ACTIVE'"
+                f"WHERE {identity_column} = :fayda AND record_status = 'ACTIVE'"
             )
-            params = {"fayda": str(fayda_fan_id).strip()}
+            params = {"fayda": str(identity_value).strip()}
             if crop_year:
                 query += " AND crop_year = :c_year"
                 params["c_year"] = str(crop_year).strip()
@@ -279,7 +285,7 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
                 year_str = f" in Crop Year '{crop_year}'" if crop_year else ""
                 season_str = f" and Season '{prod_season}'" if prod_season else ""
                 validation_error(
-                    f"No existing Crop Sown record found for Fayda ID '{fayda_fan_id}'{year_str}{season_str}. "
+                    f"No existing Crop Sown record found for Farmer identity '{identity_value}'{year_str}{season_str}. "
                     f"Sowing / Harvesting cannot create a new Crop Sown record. Please ensure a Cultivation/Crop Sown record already exists for this Farmer Identity."
                 )
 
@@ -306,7 +312,7 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
         """Farmer ids come from the farmer registry as FR- plus twelve digits."""
         value = get_row_field(record, "farmer_id")
         if value is None or str(value).strip() in ("", "None", "null", "Select"):
-            validation_error("Farmer ID is required in Farmer Identity.")
+            return
         if not _FARMER_ID_PATTERN.match(str(value).strip()):
             validation_error(
                 f"farmer_id must be FR- followed by 12 digits (got '{value}')"
@@ -315,7 +321,7 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
     def _validate_fayda_fan_id(self, record: dict) -> None:
         value = get_row_field(record, "fayda_fan_id") or get_row_field(record, "fayda_id")
         if value is None or str(value).strip() == "":
-            validation_error("Fayda ID (FAN): enter the farmer's 16-digit FAN, or use the FIN field when available")
+            return
         try:
             record["fayda_fan_id"] = normalize_uid(value)
         except FarmerReferenceError:

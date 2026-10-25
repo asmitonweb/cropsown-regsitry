@@ -131,6 +131,11 @@
           "nullable": true,
           "primary_key": false
         },
+        "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
         "farmer_name": {
           "type": "VARCHAR",
           "nullable": true,
@@ -436,6 +441,11 @@
           "nullable": true,
           "primary_key": false
         },
+        "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
         "farmer_name": {
           "type": "VARCHAR",
           "nullable": true,
@@ -716,6 +726,11 @@
           "nullable": true,
           "primary_key": false
         },
+        "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
         "farmer_name": {
           "type": "VARCHAR",
           "nullable": true,
@@ -942,6 +957,11 @@
           "primary_key": false
         },
         "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "farmer_reference_status": {
           "type": "VARCHAR",
           "nullable": true,
           "primary_key": false
@@ -1226,6 +1246,11 @@
           "nullable": true,
           "primary_key": false
         },
+        "farmer_reference_status": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
         "identity_verification_id": {
           "type": "VARCHAR",
           "nullable": true,
@@ -1477,6 +1502,11 @@
           "primary_key": false
         },
         "fayda_fin": {
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        "farmer_reference_status": {
           "type": "VARCHAR",
           "nullable": true,
           "primary_key": false
@@ -8181,7 +8211,7 @@
     },
     {
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
-      "sha256": "fc1b190ade3f1b7a908f0804cc27cebed7ca2f0ed1aeb0e08915b310d4b30f31"
+      "sha256": "21f7017d0d46aef28ee0bd23ab3929ae64dae13d087411915e8121e6c15d307a"
     },
     {
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzz_farmer_reference_awe.sql",
@@ -8190,6 +8220,10 @@
     {
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzz_location_widgets.sql",
       "sha256": "9b173b0518d568b35b83da66000fe5f7564da1aefb51f5550342662b329ca774"
+    },
+    {
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzzz_identity_alternatives.sql",
+      "sha256": "c56ae39f22de067e050c1ce6e6183be6159450b68bee04c4bfb07ec23547f274"
     },
     {
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/registry-configurations/g2p_input_mechanisms.sql",
@@ -9290,8 +9324,19 @@
                       "widget-type": "input",
                       "widget-label": "Fayda ID (FAN)",
                       "widget-readonly": false,
-                      "widget-required": true,
-                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                      "widget-data-options": {
+                        "actions": [
+                          {
+                            "action": "require",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                              "operator": "isEmpty"
+                            }
+                          }
+                        ]
+                      }
                     }
                   ],
                   "panel-id": "vertical_panel_cs_common_intake_record_1",
@@ -9345,7 +9390,7 @@
                   "widget-type": "input",
                   "widget-label": "Farmer ID",
                   "widget-readonly": false,
-                  "widget-required": true,
+                  "widget-required": false,
                   "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id"
                 },
                 {
@@ -9357,12 +9402,23 @@
                   "widget-required": false,
                   "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                   "widget-data-options": {
-                    "action": "disable",
-                    "condition": {
-                      "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
-                      "value": "SUCCESS",
-                      "operator": "equals"
-                    }
+                    "actions": [
+                      {
+                        "action": "disable",
+                        "condition": {
+                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                          "value": "SUCCESS",
+                          "operator": "equals"
+                        }
+                      },
+                      {
+                        "action": "require",
+                        "condition": {
+                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                          "operator": "isEmpty"
+                        }
+                      }
+                    ]
                   },
                   "widget-data-validation": {
                     "pattern": "^[0-9]{12}$",
@@ -9390,6 +9446,15 @@
                     "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                     "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
                   }
+                },
+                {
+                  "widget": "display",
+                  "widget-id": "farmer_reference_status",
+                  "widget-type": "display",
+                  "widget-label": "Farmer reference",
+                  "widget-readonly": true,
+                  "widget-required": false,
+                  "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_reference_status"
                 }
               ],
               "panel-id": "farmer_reference_pair",
@@ -9438,7 +9503,7 @@
                       "widget-type": "input",
                       "widget-label": "Farmer ID",
                       "widget-readonly": false,
-                      "widget-required": true,
+                      "widget-required": false,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id"
                     },
                     {
@@ -9456,8 +9521,19 @@
                       "widget-type": "input",
                       "widget-label": "Fayda ID (FAN)",
                       "widget-readonly": false,
-                      "widget-required": true,
-                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                      "widget-data-options": {
+                        "actions": [
+                          {
+                            "action": "require",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                              "operator": "isEmpty"
+                            }
+                          }
+                        ]
+                      }
                     },
                     {
                       "widget": "text",
@@ -9468,12 +9544,23 @@
                       "widget-required": false,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                       "widget-data-options": {
-                        "action": "disable",
-                        "condition": {
-                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
-                          "value": "SUCCESS",
-                          "operator": "equals"
-                        }
+                        "actions": [
+                          {
+                            "action": "disable",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                              "value": "SUCCESS",
+                              "operator": "equals"
+                            }
+                          },
+                          {
+                            "action": "require",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                              "operator": "isEmpty"
+                            }
+                          }
+                        ]
                       },
                       "widget-data-validation": {
                         "pattern": "^[0-9]{12}$",
@@ -9501,6 +9588,15 @@
                         "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                         "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
                       }
+                    },
+                    {
+                      "widget": "display",
+                      "widget-id": "farmer_reference_status",
+                      "widget-type": "display",
+                      "widget-label": "Farmer reference",
+                      "widget-readonly": true,
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_reference_status"
                     }
                   ],
                   "panel-id": "vertical_panel_cs_cropsown_record_2",
@@ -9579,7 +9675,7 @@
                       "widget-type": "input",
                       "widget-label": "Farmer ID",
                       "widget-readonly": false,
-                      "widget-required": true,
+                      "widget-required": false,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id"
                     },
                     {
@@ -9597,8 +9693,19 @@
                       "widget-type": "input",
                       "widget-label": "Fayda ID (FAN)",
                       "widget-readonly": false,
-                      "widget-required": true,
-                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                      "widget-data-options": {
+                        "actions": [
+                          {
+                            "action": "require",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                              "operator": "isEmpty"
+                            }
+                          }
+                        ]
+                      }
                     },
                     {
                       "widget": "text",
@@ -9609,12 +9716,23 @@
                       "widget-required": false,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                       "widget-data-options": {
-                        "action": "disable",
-                        "condition": {
-                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
-                          "value": "SUCCESS",
-                          "operator": "equals"
-                        }
+                        "actions": [
+                          {
+                            "action": "disable",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                              "value": "SUCCESS",
+                              "operator": "equals"
+                            }
+                          },
+                          {
+                            "action": "require",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                              "operator": "isEmpty"
+                            }
+                          }
+                        ]
                       },
                       "widget-data-validation": {
                         "pattern": "^[0-9]{12}$",
@@ -9642,6 +9760,15 @@
                         "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                         "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
                       }
+                    },
+                    {
+                      "widget": "display",
+                      "widget-id": "farmer_reference_status",
+                      "widget-type": "display",
+                      "widget-label": "Farmer reference",
+                      "widget-readonly": true,
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_reference_status"
                     }
                   ],
                   "panel-id": "vertical_panel_cs_intake_record_1",
@@ -9767,7 +9894,7 @@
                       "widget-id": "fayda_fan_id",
                       "widget-type": "input",
                       "widget-label": "Fayda FAN ID",
-                      "widget-required": true,
+                      "widget-required": false,
                       "widget-data-path": "fa120001-0000-4000-8000-000000000001.fayda_fan_id"
                     },
                     {
@@ -9777,6 +9904,15 @@
                       "widget-label": "First Name",
                       "widget-required": false,
                       "widget-data-path": "fa120001-0000-4000-8000-000000000001.first_name"
+                    },
+                    {
+                      "widget": "display",
+                      "widget-id": "farmer_reference_fin",
+                      "widget-type": "display",
+                      "widget-label": "Fayda FIN",
+                      "widget-readonly": true,
+                      "widget-required": false,
+                      "widget-data-path": "fa120001-0000-4000-8000-000000000001.fayda_fin"
                     }
                   ],
                   "panel-id": "vp_cs_farmer_1",
@@ -14260,6 +14396,7 @@
                       "widget-type": "input",
                       "widget-label": "Farmer ID",
                       "widget-readonly": true,
+                      "widget-required": false,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id"
                     },
                     {
@@ -14268,7 +14405,19 @@
                       "widget-type": "input",
                       "widget-label": "Fayda ID",
                       "widget-readonly": true,
-                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                      "widget-data-options": {
+                        "actions": [
+                          {
+                            "action": "require",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                              "operator": "isEmpty"
+                            }
+                          }
+                        ]
+                      }
                     },
                     {
                       "widget": "text",
@@ -14279,12 +14428,23 @@
                       "widget-required": false,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                       "widget-data-options": {
-                        "action": "disable",
-                        "condition": {
-                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
-                          "value": "SUCCESS",
-                          "operator": "equals"
-                        }
+                        "actions": [
+                          {
+                            "action": "disable",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                              "value": "SUCCESS",
+                              "operator": "equals"
+                            }
+                          },
+                          {
+                            "action": "require",
+                            "condition": {
+                              "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id",
+                              "operator": "isEmpty"
+                            }
+                          }
+                        ]
                       },
                       "widget-data-validation": {
                         "pattern": "^[0-9]{12}$",
@@ -14312,6 +14472,15 @@
                         "foundationalIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
                         "internalRecordIdPath": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.internal_record_id"
                       }
+                    },
+                    {
+                      "widget": "display",
+                      "widget-id": "farmer_reference_status",
+                      "widget-type": "display",
+                      "widget-label": "Farmer reference",
+                      "widget-readonly": true,
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_reference_status"
                     }
                   ],
                   "panel-id": "vertical_panel_cs_production_farmer_1",

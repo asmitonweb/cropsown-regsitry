@@ -25,6 +25,7 @@ class G2PFarmer:
     # ── Farmer identity ───────────────────────────────────────────────────────
     farmer_id: Mapped[str] = mapped_column(String, nullable=True)
     fayda_fan_id: Mapped[str] = mapped_column(String, nullable=True)
+    fayda_fin: Mapped[str] = mapped_column(String, nullable=True)
     farmer_name: Mapped[str] = mapped_column(String, nullable=True)
     first_name: Mapped[str] = mapped_column(String, nullable=True)
     middle_name: Mapped[str] = mapped_column(String, nullable=True)

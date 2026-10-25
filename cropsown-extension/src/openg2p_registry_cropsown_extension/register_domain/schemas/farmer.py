@@ -13,6 +13,7 @@ from openg2p_registry_core.schemas import (
 class G2PSchemaFarmer:
     farmer_id: Optional[str] = None
     fayda_fan_id: Optional[str] = None
+    fayda_fin: Optional[str] = None
     farmer_name: Optional[str] = None
     first_name: Optional[str] = None
     middle_name: Optional[str] = None

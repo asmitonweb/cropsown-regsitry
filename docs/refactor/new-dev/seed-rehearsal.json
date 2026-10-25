@@ -82,7 +82,7 @@
     {
       "pass": 1,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
-      "sha256": "fc1b190ade3f1b7a908f0804cc27cebed7ca2f0ed1aeb0e08915b310d4b30f31",
+      "sha256": "21f7017d0d46aef28ee0bd23ab3929ae64dae13d087411915e8121e6c15d307a",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
@@ -97,6 +97,13 @@
       "pass": 1,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzz_location_widgets.sql",
       "sha256": "9b173b0518d568b35b83da66000fe5f7564da1aefb51f5550342662b329ca774",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 1,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzzz_identity_alternatives.sql",
+      "sha256": "c56ae39f22de067e050c1ce6e6183be6159450b68bee04c4bfb07ec23547f274",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
@@ -271,7 +278,7 @@
     {
       "pass": 2,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
-      "sha256": "fc1b190ade3f1b7a908f0804cc27cebed7ca2f0ed1aeb0e08915b310d4b30f31",
+      "sha256": "21f7017d0d46aef28ee0bd23ab3929ae64dae13d087411915e8121e6c15d307a",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
@@ -286,6 +293,13 @@
       "pass": 2,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzz_location_widgets.sql",
       "sha256": "9b173b0518d568b35b83da66000fe5f7564da1aefb51f5550342662b329ca774",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 2,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzzz_identity_alternatives.sql",
+      "sha256": "c56ae39f22de067e050c1ce6e6183be6159450b68bee04c4bfb07ec23547f274",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
