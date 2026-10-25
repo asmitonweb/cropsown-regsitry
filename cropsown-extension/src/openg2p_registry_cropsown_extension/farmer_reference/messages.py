@@ -81,12 +81,18 @@ def _ids(identity: Mapping | None) -> str:
     return " and ".join(parts) or "these IDs"
 
 
-def explain(code: str, identity: Mapping | None = None) -> str:
+def explain(code: str, identity: Mapping | None = None, *, held=False) -> str:
     if not code.startswith("FARMER_REFERENCE_"):
         return code
     if code in MESSAGES:
-        return MESSAGES[code].format(ids=_ids(identity))
-    if code in UNAVAILABLE:
-        return ("The Farmer Registry's answer about the farmer could not be verified. " + _TRY_AGAIN)
-    return ("The farmer could not be linked to this intake. Nothing was submitted. "
-            f"Tell the administrator the reference {code}")
+        text = MESSAGES[code].format(ids=_ids(identity))
+    elif code in UNAVAILABLE:
+        text = "The Farmer Registry's answer about the farmer could not be verified. " + _TRY_AGAIN
+    else:
+        text = ("The farmer could not be linked to this intake. Nothing was submitted. "
+                f"Tell the administrator the reference {code}")
+    if held:
+        # Ingestion has already saved the intake; the staff refusal wording
+        # must not say otherwise in the durable worker diagnostic.
+        text = text.replace("Nothing was submitted.", "This intake is saved and held.")
+    return text

@@ -476,7 +476,7 @@ class NativeReferenceTests(unittest.IsolatedAsyncioTestCase):
                     result=await service.finalize_submission_with_session(submission_id,session)
             self.assertEqual(result.draft_status,"FINAL")
             submit_business_workflow.assert_awaited_once()
-            self.assertIn("no Farmer record found for FIN",root.farmer_reference_status)
+            self.assertIn("No farmer with Farmer ID",root.farmer_reference_status)
             self.assertIsNone(root.farmer_uuid)
             await native.G2PIntakeFormDataService.get_component().approve_submission_with_session(submission_id,session,approved_by="business-reviewer")
             self.assertEqual(submission.approval_status,"APPROVED")

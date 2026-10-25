@@ -28,3 +28,9 @@ def test_unreachable_source_says_nothing_was_submitted():
 def test_unknown_code_keeps_a_reference_and_sentences_pass_through():
     assert "FARMER_REFERENCE_SOMETHING_NEW" in messages.explain("FARMER_REFERENCE_SOMETHING_NEW")
     assert messages.explain("Fayda FIN: enter exactly 12 digits") == "Fayda FIN: enter exactly 12 digits"
+
+
+def test_held_worker_diagnostic_says_the_intake_was_saved():
+    text = messages.explain("FARMER_REFERENCE_LOOKUP_UNAVAILABLE", held=True)
+    assert "This intake is saved and held" in text
+    assert "Nothing was submitted" not in text
