@@ -49,5 +49,16 @@ class NotificationTests(unittest.TestCase):
         rendered=json.loads(Environment().from_string(template).render(expanded={**enriched,'first_name':'Untrusted','woreda_id':'untrusted'}))
         self.assertEqual(next(iter(rendered.values())),[enriched])
 
+    def test_native_connector_routing_hint_is_bounded_and_never_becomes_profile(self):
+        routed = {**self.event, 'register_mnemonic': 'Farmer'}
+        self.assertEqual(notification.notification_fields(routed),
+                         {'farmer_id': self.event['farmer_id'], 'fayda_fan_id': self.event['fayda_fan_id']})
+        self.assertEqual(routed['register_mnemonic'], 'Farmer')
+        for value in ('CropSown', '', None):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                notification.notification_fields({**routed, 'register_mnemonic': value})
+        with self.assertRaises(ValueError):
+            notification.notification_fields({**routed, 'first_name': 'Untrusted'})
+
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,72 @@
+{
+  "checked_at": "2026-10-25T13:35:22.170212+00:00",
+  "scope": "Crop receiving configuration and source regressions; live approved-source update is blocked",
+  "result": "PARTIAL",
+  "source_approved_update_acceptance": "NOT RUN",
+  "blocking_dependencies": [
+    "Lead-owned Farmer outgestion flag/template/topic and central approved change",
+    "Docker control API version/ps timeout10s; no restart performed"
+  ],
+  "receiver": {
+    "websub_chart": "1.3.2",
+    "hub_and_consolidator_health_http": 200,
+    "topic": "oan.farmer-reference.changed.v1",
+    "kafka_control_topics_provisioned": 4,
+    "registration_http": 200,
+    "subscription_http": 202,
+    "connector": {
+      "connector_id": "1284acf608804482900275d636d99b00",
+      "transport_type": "websub",
+      "signed_registry_delivery": true,
+      "webhook_hmac_required": true
+    },
+    "hmac_required": true,
+    "ed25519_registry_signature_required": true,
+    "legacy_odk_pipelines_disabled_before_worker_start": 4,
+    "native_template_id": "bce3ff5c-c0b0-5961-82c9-04dc13a7c094",
+    "native_template_document_id": "790c6c31-318e-40f3-bfdb-2d8505a4464e",
+    "original_template_binding_preserved": true,
+    "external_connector_source_commit": "6d54496255452fa11a5e90459aa80b015bd1d48f",
+    "external_connector_source_path": "openg2p-connector-service",
+    "copied_into_registry_extension": false
+  },
+  "transport_probe": {
+    "event_id": "transport-probe-3a24ef497d734210a7323c413541e1a2",
+    "hub_publish_http": 200,
+    "source_approval_claimed": false,
+    "payload_demographics": false
+  },
+  "worker_receipt_after_probe": "NOT VERIFIED - Docker control API stalled",
+  "regressions": {
+    "own_row_farmer_update": {
+      "result": "PASS",
+      "tests": 1,
+      "database": "owned disposable PostgreSQL15",
+      "checks": [
+        "Farmer UPDATE preserves omitted optional values",
+        "Farmer own approved name changes",
+        "Linked Crop stored name, geography and previous approver stay unchanged"
+      ]
+    },
+    "own_domain_projection": {
+      "result": "PASS",
+      "tests": 8,
+      "database": "in-memory SQLite"
+    },
+    "notification_contract": {
+      "result": "PASS",
+      "tests": 6,
+      "network": "none",
+      "checks": [
+        "Only bounded Farmer connector routing hint accepted",
+        "Routing hint excluded from trusted identity profile",
+        "Unexpected demographics refused"
+      ]
+    }
+  },
+  "runtime_rebuilds_completed": true,
+  "runtime_recreation_command_completed": true,
+  "runtime_readback_after_transport_probe": "BLOCKED",
+  "upstream_sources_changed": false,
+  "personal_data_or_credentials_in_evidence": false
+}

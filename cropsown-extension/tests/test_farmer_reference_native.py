@@ -154,7 +154,7 @@ class NativeReferenceTests(unittest.IsolatedAsyncioTestCase):
                 cr.change_request_id, session, approved_by="synthetic-reviewer")
             return reference.local_farmer_id
 
-    async def test_native_update_preserves_omissions_and_projects_linked_domain_only_after_approval(self):
+    async def test_native_farmer_update_preserves_omissions_and_does_not_write_linked_domain(self):
         from dataclasses import replace
         from datetime import date, datetime
         local_id = await self._approved_reference()
@@ -182,7 +182,7 @@ class NativeReferenceTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(farmer.email, "approved@example.invalid")
             self.assertEqual(farmer.date_of_birth, date(1990, 1, 1))
             self.assertEqual(farmer.farmer_name, "Approved new Farmer")
-            self.assertEqual(linked.farmer_name, "Approved new Farmer")
+            self.assertEqual(linked.farmer_name, "Verified Farmer")
             self.assertEqual(getattr(linked, domain_geo), "domain-woreda")
             self.assertEqual(linked.last_approved_by, "business-reviewer")
 

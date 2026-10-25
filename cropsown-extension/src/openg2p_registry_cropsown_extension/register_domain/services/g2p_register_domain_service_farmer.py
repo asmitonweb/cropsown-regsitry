@@ -29,8 +29,8 @@ class G2PRegisterDomainServiceFarmer(G2PRegisterDomainService):
     async def post_approve(self, change_request, session):
         from ...farmer_reference.native import record_native_decision
         await record_native_decision(session, change_request.change_request_id, True)
-        from .farmer_name_projection import refresh_crop_names_from_farmer
-        await refresh_crop_names_from_farmer(session, change_request.internal_record_id)
+        # Stored Crop mirrors require their own domain approval. Farmer approval
+        # changes only this Farmer and releases already approved waiting intakes.
 
     async def post_ingest(self, register_id, register_row, session):
         raise FarmerReferenceError("FARMER_REFERENCE_CHANGE_REQUEST_REQUIRED")
