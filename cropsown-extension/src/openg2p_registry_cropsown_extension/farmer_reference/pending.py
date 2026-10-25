@@ -33,7 +33,12 @@ def pending_message(identity, code):
     )
 
 
-async def resolve_or_wait(session, submission, row, *, lookup=None):
+async def resolve_or_wait(session, submission, row, *, lookup=None, interactive=False):
+    """Link the declared Farmer, or hold the intake for a later retry.
+
+    interactive: a person is submitting and can correct the IDs, so any
+    failure is refused (nothing is created) instead of held.
+    """
     from .native import onboarding_service
 
     declared = intake_identity(
@@ -81,6 +86,8 @@ async def resolve_or_wait(session, submission, row, *, lookup=None):
             )
     except FarmerReferenceError as error:
         code = str(error)
+        if interactive:
+            raise
         if code in {
             "FARMER_REFERENCE_IDENTITY_MISMATCH",
             "FARMER_REFERENCE_SOURCE_ID_MISMATCH",
