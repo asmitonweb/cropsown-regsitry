@@ -8,6 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from openg2p_registry_core.models import G2PRegisterChangeRequest
 from openg2p_registry_core.services import G2PRegisterDomainService
 
+from ...farmer_reference.profile import FarmerReferenceError, normalize_uid
+
 from .domain_validation_utils import as_float, as_int, validation_error, get_row_field
 
 _logger = logging.getLogger("g2p-register-domain-service")
@@ -312,11 +314,12 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
 
     def _validate_fayda_fan_id(self, record: dict) -> None:
         value = get_row_field(record, "fayda_fan_id") or get_row_field(record, "fayda_id")
-        if value is None or str(value).strip() in ("", "None", "null", "Select"):
-            validation_error("Fayda ID (FAN) is required in Farmer Identity.")
-        fyda_pattern = r"^\d{4} \d{4} \d{4} \d{4}$"
-        if not re.match(fyda_pattern, str(value).strip()):
-            validation_error("Fayda ID must be 16 digits formatted as 4 groups of 4 digits (e.g. 1234 5678 9000 3456) with no letters, special characters, or extra spaces within groups")
+        if value is None or str(value).strip() == "":
+            validation_error("Fayda ID (FAN): enter the farmer's 16-digit FAN, or use the FIN field when available")
+        try:
+            record["fayda_fan_id"] = normalize_uid(value)
+        except FarmerReferenceError:
+            validation_error("Fayda ID (FAN): enter exactly 16 digits, optionally spaced in four groups. Use the FIN field for a 12-digit FIN")
 
     def _validate_land_id(self, record: dict) -> None:
         from .domain_validation_utils import validate_land_id
