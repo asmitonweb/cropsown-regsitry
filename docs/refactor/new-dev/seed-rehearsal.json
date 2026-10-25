@@ -82,7 +82,7 @@
     {
       "pass": 1,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
-      "sha256": "f78c1b8c42bb44fe7fd46e508d236061cadcf339e36d4123f18bd1f007500f0e",
+      "sha256": "fc1b190ade3f1b7a908f0804cc27cebed7ca2f0ed1aeb0e08915b310d4b30f31",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
@@ -271,7 +271,7 @@
     {
       "pass": 2,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
-      "sha256": "f78c1b8c42bb44fe7fd46e508d236061cadcf339e36d4123f18bd1f007500f0e",
+      "sha256": "fc1b190ade3f1b7a908f0804cc27cebed7ca2f0ed1aeb0e08915b310d4b30f31",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },

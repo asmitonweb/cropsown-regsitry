@@ -28,6 +28,9 @@ BEGIN
 END $$;
 UPDATE g2p_register_sections SET section_ui_schema=pg_temp.oan_popup_identity(section_ui_schema)
 WHERE section_ui_schema IS NOT NULL;
+-- Native flag enables the Verify action; it does not require verification at finalize.
+UPDATE g2p_register_definitions SET requires_registrant_authentication=true
+WHERE register_id='6b06a95a-9a6c-5a33-a33d-c1625716c59c';
 DO $$ BEGIN
  IF NOT EXISTS(SELECT 1 FROM g2p_register_sections WHERE
    jsonb_path_exists(section_ui_schema,'lax $.** ? (@."widget" == "oan-identity-verification")')) THEN
@@ -41,7 +44,7 @@ DO $$ BEGIN
      AND w->'widget-data-options'->'condition'->>'value' = 'SUCCESS') THEN
    RAISE EXCEPTION 'Optional manual FIN fallback with the SUCCESS lock is missing';
  END IF;
- IF EXISTS(SELECT 1 FROM g2p_register_definitions WHERE register_id='6b06a95a-9a6c-5a33-a33d-c1625716c59c' AND requires_registrant_authentication) THEN
-   RAISE EXCEPTION 'Fayda verification must remain optional; normal approvals control activation';
+ IF NOT EXISTS(SELECT 1 FROM g2p_register_definitions WHERE register_id='6b06a95a-9a6c-5a33-a33d-c1625716c59c' AND requires_registrant_authentication) THEN
+   RAISE EXCEPTION 'Fayda Verify must be enabled; this flag is not a finalize verification gate';
  END IF;
 END $$;
