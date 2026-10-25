@@ -1,4 +1,4 @@
--- Popup-only FIN verification. UID/FAN16 reference fields remain distinct.
+-- Optional verification or editable unverified FIN fallback. UID/FAN16 remains distinct.
 CREATE OR REPLACE FUNCTION pg_temp.oan_popup_identity(node jsonb)
 RETURNS jsonb LANGUAGE plpgsql AS $$
 DECLARE result jsonb;
@@ -11,6 +11,11 @@ BEGIN
       INTO result FROM jsonb_each(node);
     IF node->>'widget-data-path' = '6b06a95a-9a6c-5a33-a33d-c1625716c59c.foundational_id' THEN
       result := result || '{"widget":"display","widget-type":"display","widget-readonly":true,"widget-required":false}'::jsonb;
+    END IF;
+    IF jsonb_typeof(node->'widgets')='array'
+       AND (node->'widgets')::text LIKE '%6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id%'
+       AND NOT jsonb_path_exists(node->'widgets','lax $.** ? (@."widget-id" == "fayda_fin")') THEN
+      result := jsonb_set(result,'{widgets}',result->'widgets' || jsonb_build_array('{"widget": "text", "widget-id": "fayda_fin", "widget-type": "input", "widget-label": "Fayda FIN (12 digits, optional)", "widget-readonly": false, "widget-required": false, "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin", "widget-data-placeholder": "Enter FIN only for manual fallback; Verify with Fayda fills it automatically", "widget-data-validation": {"pattern": "^[0-9]{12}$", "patternMessage": "Fayda FIN: enter exactly 12 digits, or use the separate 16-digit FAN field. Upload ID evidence for approval."}, "widget-data-options": {"action": "disable", "condition": {"field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status", "operator": "equals", "value": "SUCCESS"}}}'::jsonb));
     END IF;
     IF jsonb_typeof(node->'widgets')='array'
        AND (node->'widgets')::text LIKE '%6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id%'
@@ -28,8 +33,15 @@ DO $$ BEGIN
    jsonb_path_exists(section_ui_schema,'lax $.** ? (@."widget" == "oan-identity-verification")')) THEN
    RAISE EXCEPTION 'Popup-only Fayda widget is missing from domain identity metadata';
  END IF;
- IF EXISTS(SELECT 1 FROM g2p_register_sections, jsonb_path_query(section_ui_schema,'lax $.** ? (@."widget-data-path" == "6b06a95a-9a6c-5a33-a33d-c1625716c59c.foundational_id")') w
-   WHERE w->>'widget' <> 'display') THEN
-   RAISE EXCEPTION 'FIN must be collected only in the Fayda popup';
+ IF NOT EXISTS(SELECT 1 FROM g2p_register_sections,
+   jsonb_path_query(section_ui_schema,'lax $.** ? (@."widget-id" == "fayda_fin")') w
+   WHERE w->>'widget-data-path' = '6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin'
+     AND w->>'widget' = 'text' AND w->>'widget-readonly' = 'false'
+     AND w->>'widget-required' = 'false'
+     AND w->'widget-data-options'->'condition'->>'value' = 'SUCCESS') THEN
+   RAISE EXCEPTION 'Optional manual FIN fallback with the SUCCESS lock is missing';
+ END IF;
+ IF EXISTS(SELECT 1 FROM g2p_register_definitions WHERE register_id='6b06a95a-9a6c-5a33-a33d-c1625716c59c' AND requires_registrant_authentication) THEN
+   RAISE EXCEPTION 'Fayda verification must remain optional; normal approvals control activation';
  END IF;
 END $$;

@@ -8181,7 +8181,7 @@
     },
     {
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zz_popup_identity.sql",
-      "sha256": "66066c616268442cbdfe7f0786a8776da32dc8f3e6e819f2a9e4a45e61232046"
+      "sha256": "f78c1b8c42bb44fe7fd46e508d236061cadcf339e36d4123f18bd1f007500f0e"
     },
     {
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzz_farmer_reference_awe.sql",
@@ -9349,6 +9349,28 @@
                   "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id"
                 },
                 {
+                  "widget": "text",
+                  "widget-id": "fayda_fin",
+                  "widget-type": "input",
+                  "widget-label": "Fayda FIN (12 digits, optional)",
+                  "widget-readonly": false,
+                  "widget-required": false,
+                  "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                  "widget-data-options": {
+                    "action": "disable",
+                    "condition": {
+                      "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                      "value": "SUCCESS",
+                      "operator": "equals"
+                    }
+                  },
+                  "widget-data-validation": {
+                    "pattern": "^[0-9]{12}$",
+                    "patternMessage": "Fayda FIN: enter exactly 12 digits, or use the separate 16-digit FAN field. Upload ID evidence for approval."
+                  },
+                  "widget-data-placeholder": "Enter FIN only for manual fallback; Verify with Fayda fills it automatically"
+                },
+                {
                   "widget": "oan-identity-verification",
                   "widget-id": "identity_verification",
                   "widget-type": "input",
@@ -9436,6 +9458,28 @@
                       "widget-readonly": false,
                       "widget-required": true,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                    },
+                    {
+                      "widget": "text",
+                      "widget-id": "fayda_fin",
+                      "widget-type": "input",
+                      "widget-label": "Fayda FIN (12 digits, optional)",
+                      "widget-readonly": false,
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                      "widget-data-options": {
+                        "action": "disable",
+                        "condition": {
+                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                          "value": "SUCCESS",
+                          "operator": "equals"
+                        }
+                      },
+                      "widget-data-validation": {
+                        "pattern": "^[0-9]{12}$",
+                        "patternMessage": "Fayda FIN: enter exactly 12 digits, or use the separate 16-digit FAN field. Upload ID evidence for approval."
+                      },
+                      "widget-data-placeholder": "Enter FIN only for manual fallback; Verify with Fayda fills it automatically"
                     },
                     {
                       "widget": "oan-identity-verification",
@@ -9555,6 +9599,28 @@
                       "widget-readonly": false,
                       "widget-required": true,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                    },
+                    {
+                      "widget": "text",
+                      "widget-id": "fayda_fin",
+                      "widget-type": "input",
+                      "widget-label": "Fayda FIN (12 digits, optional)",
+                      "widget-readonly": false,
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                      "widget-data-options": {
+                        "action": "disable",
+                        "condition": {
+                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                          "value": "SUCCESS",
+                          "operator": "equals"
+                        }
+                      },
+                      "widget-data-validation": {
+                        "pattern": "^[0-9]{12}$",
+                        "patternMessage": "Fayda FIN: enter exactly 12 digits, or use the separate 16-digit FAN field. Upload ID evidence for approval."
+                      },
+                      "widget-data-placeholder": "Enter FIN only for manual fallback; Verify with Fayda fills it automatically"
                     },
                     {
                       "widget": "oan-identity-verification",
@@ -14203,6 +14269,28 @@
                       "widget-label": "Fayda ID",
                       "widget-readonly": true,
                       "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id"
+                    },
+                    {
+                      "widget": "text",
+                      "widget-id": "fayda_fin",
+                      "widget-type": "input",
+                      "widget-label": "Fayda FIN (12 digits, optional)",
+                      "widget-readonly": false,
+                      "widget-required": false,
+                      "widget-data-path": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin",
+                      "widget-data-options": {
+                        "action": "disable",
+                        "condition": {
+                          "field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status",
+                          "value": "SUCCESS",
+                          "operator": "equals"
+                        }
+                      },
+                      "widget-data-validation": {
+                        "pattern": "^[0-9]{12}$",
+                        "patternMessage": "Fayda FIN: enter exactly 12 digits, or use the separate 16-digit FAN field. Upload ID evidence for approval."
+                      },
+                      "widget-data-placeholder": "Enter FIN only for manual fallback; Verify with Fayda fills it automatically"
                     },
                     {
                       "widget": "oan-identity-verification",
