@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "case": "approved Farmer ID + FIN",
+      "result": "PASS",
+      "source_signature_verified": true,
+      "source_approval_and_geo_verified": true,
+      "source_names_match": true
+    },
+    {
+      "case": "wrong FIN",
+      "result": "PASS",
+      "diagnostic": "FARMER_REFERENCE_NOT_FOUND",
+      "trusted_reference_created": false
+    },
+    {
+      "case": "unknown Farmer ID",
+      "result": "PASS",
+      "diagnostic": "FARMER_REFERENCE_NOT_FOUND",
+      "trusted_reference_created": false
+    }
+  ],
+  "transport": "actual local Farmer Partner API + PM + Consent Manager",
+  "register_rows_written": 0
+}

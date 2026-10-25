@@ -1,0 +1,31 @@
+{
+  "checks": [
+    {
+      "case": "valid",
+      "http": 200,
+      "decision": "permit",
+      "reason_code": "ok"
+    },
+    {
+      "case": "tampered-signature",
+      "http": 200,
+      "decision": "deny",
+      "reason_code": "signature_invalid"
+    },
+    {
+      "case": "unauthorized-purpose",
+      "http": 200,
+      "decision": "deny",
+      "reason_code": "purpose_not_allowed"
+    },
+    {
+      "case": "unauthorized-scope",
+      "http": 200,
+      "decision": "deny",
+      "reason_code": "scope_exceeds_policy"
+    }
+  ],
+  "target": "native local Consent Manager / Partner Management",
+  "register_rows_written": 0,
+  "source_lookup_success": "NOT YET VERIFIED"
+}

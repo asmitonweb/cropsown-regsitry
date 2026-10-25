@@ -1,0 +1,33 @@
+{
+  "step": 2,
+  "result": "PASS",
+  "scope": "Real local signed consent-aware lookup and receiving approval configuration; full intake/update journey remains step3/4",
+  "verified_at": "2026-10-25T12:17:40.459710+00:00",
+  "lookup_evidence": "local-lookup.json",
+  "consent_evidence": "local-consent.json",
+  "metadata_evidence": "local-crop-metadata.json",
+  "source_farmer_commit": "eddf927d34020bcd336f7c4626563f009df81e85",
+  "source_staff_ui_recreated": false,
+  "source_registry_seed_run": false,
+  "source_partner_role_aligned_to_current_commit": true,
+  "source_native_template_publication": {
+    "template_id": "OUT-TMPL-1",
+    "document_id": "6c271aac-0466-46cc-822d-d0b207e8a0d8",
+    "document_store_id": "ac9b7a48cf9a4ba398617d8e2b9f39ab",
+    "bucket": "templates"
+  },
+  "source_signing_public": {
+    "kid": "NqcEacK6XC_3DTIxduDkZyW2nDMOadzxUc8cA4cLVlk",
+    "algorithm": "RS256"
+  },
+  "source_original_template_binding_preserved": true,
+  "reference_policy": "coss.cropsown.farmer-reference.v1",
+  "business_policy": "coss.cropsown.intake.local.v1",
+  "separate_submitter_reviewer": true,
+  "reference_review_woreda_id": "ET010101",
+  "iam_directory_runtime": "read-only standard client roles and DP policies",
+  "native_browser_login_and_four_forms": "PASS",
+  "native_fixed_template_bucket": "templates",
+  "correction": "An attempted custom physical template bucket was unsupported by native DocumentBucket. Its runtime override is removed; use native catalog UUID object keys. The unused bucket is retained and is not runtime acceptance evidence.",
+  "register_rows_written": 0
+}
