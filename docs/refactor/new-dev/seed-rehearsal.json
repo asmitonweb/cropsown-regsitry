@@ -103,7 +103,14 @@
     {
       "pass": 1,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzzz_identity_alternatives.sql",
-      "sha256": "c56ae39f22de067e050c1ce6e6183be6159450b68bee04c4bfb07ec23547f274",
+      "sha256": "12ddb54284c0b0f7e26bf19916d282b9bbdf9b885d9fc6eccd4be2075dcfc39a",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 1,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzzzz_field_rules.sql",
+      "sha256": "c137ff47bcb87004948cc6ac3ffc063ab21041d51c4e65c611e6060aeafc792d",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
@@ -195,6 +202,13 @@
       "pass": 1,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/registry-outbound-messages-templates/outgoing_templates.sql",
       "sha256": "5f2ba9cbd2a8b6d5f3214a68190ea0ff63104e1a2ff5cb767db8c1d899822c5f",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 1,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/zzzzzz_field_translations.sql",
+      "sha256": "1b55f4dab494a376ebfc9d5df2676b8599b00b437b5bc826b7c9e9c7237ead2e",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
@@ -299,7 +313,14 @@
     {
       "pass": 2,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzzz_identity_alternatives.sql",
-      "sha256": "c56ae39f22de067e050c1ce6e6183be6159450b68bee04c4bfb07ec23547f274",
+      "sha256": "12ddb54284c0b0f7e26bf19916d282b9bbdf9b885d9fc6eccd4be2075dcfc39a",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 2,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/register-metadata/zzzzzz_field_rules.sql",
+      "sha256": "c137ff47bcb87004948cc6ac3ffc063ab21041d51c4e65c611e6060aeafc792d",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     },
@@ -391,6 +412,13 @@
       "pass": 2,
       "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/registry-outbound-messages-templates/outgoing_templates.sql",
       "sha256": "5f2ba9cbd2a8b6d5f3214a68190ea0ff63104e1a2ff5cb767db8c1d899822c5f",
+      "sqlstate_errors": [],
+      "psql_exit_code": 0
+    },
+    {
+      "pass": 2,
+      "path": "cropsown-extension/src/openg2p_registry_cropsown_extension/meta_data/zzzzzz_field_translations.sql",
+      "sha256": "1b55f4dab494a376ebfc9d5df2676b8599b00b437b5bc826b7c9e9c7237ead2e",
       "sqlstate_errors": [],
       "psql_exit_code": 0
     }

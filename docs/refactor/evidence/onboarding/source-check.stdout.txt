@@ -1,6 +1,6 @@
 {
   "domain": "cropsown",
-  "python_files_parsed": 74,
+  "python_files_parsed": 75,
   "platform_pins": [
     "1.2.2-rc.557"
   ],

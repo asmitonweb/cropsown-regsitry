@@ -13,9 +13,9 @@ BEGIN
    IF node->>'widget-data-path' = '6b06a95a-9a6c-5a33-a33d-c1625716c59c.farmer_id' THEN
      result := result || '{"widget-required":false}'::jsonb;
    ELSIF node->>'widget-data-path' = '6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id' THEN
-     result := result || jsonb_build_object('widget-required',false,'widget-data-options','{"actions": [{"action": "require", "condition": {"field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin", "operator": "isEmpty"}}]}'::jsonb);
+     result := result || jsonb_build_object('widget-required',false,'widget-data-options','{"actions": [{"action": "require", "condition": {"field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin", "operator": "empty"}}]}'::jsonb);
    ELSIF node->>'widget-data-path' = '6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fin' THEN
-     result := result || jsonb_build_object('widget-required',false,'widget-data-options','{"actions": [{"action": "disable", "condition": {"field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status", "operator": "equals", "value": "SUCCESS"}}, {"action": "require", "condition": {"field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id", "operator": "isEmpty"}}]}'::jsonb);
+     result := result || jsonb_build_object('widget-required',false,'widget-data-options','{"actions": [{"action": "disable", "condition": {"field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.last_authentication_status", "operator": "equals", "value": "SUCCESS"}}, {"action": "require", "condition": {"field": "6b06a95a-9a6c-5a33-a33d-c1625716c59c.fayda_fan_id", "operator": "empty"}}]}'::jsonb);
    ELSIF node->>'widget-data-path' = 'fa120001-0000-4000-8000-000000000001.fayda_fan_id' THEN
      result := result || '{"widget-required":false}'::jsonb;
    END IF;

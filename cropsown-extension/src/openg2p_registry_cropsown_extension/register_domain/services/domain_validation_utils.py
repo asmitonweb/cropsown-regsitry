@@ -78,8 +78,14 @@ def is_blank(value) -> bool:
 def validate_alphabetical_name(value, field_name: str) -> None:
     if is_blank(value):
         return
+    if field_name in {"Farmer Name", "DA Name", "Supervisor Name", "Surveyor Name"}:
+        from .field_rules import explain, name_issue
+        problem=name_issue(value,"farmer_name")
+        if problem:
+            validation_error(explain(problem).replace("Farmer Name",field_name))
+        return
     import re
-    # Allow alphanumeric characters, spaces, hyphens, and dots for DA/Supervisor/Farmer names
+    # Non-person botanical/local names retain their separate legacy contract.
     if not re.match(r"^[a-zA-Z0-9\s\.\-_]+$", str(value).strip()):
         validation_error(f"{field_name} must contain only alphabetical characters, numbers, and spaces")
 

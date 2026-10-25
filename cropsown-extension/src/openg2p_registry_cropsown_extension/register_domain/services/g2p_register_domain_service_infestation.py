@@ -11,6 +11,8 @@ _logger = logging.getLogger("g2p-register-domain-service")
 
 class G2PRegisterDomainServiceInfestation(G2PRegisterDomainService):
     async def validate_domain_attributes(self, records: list[dict], session=None, **kwargs):
+        from .field_rules import validate_record_fields
+        await validate_record_fields(records, table=True)
         from .domain_validation_utils import is_record_deleted
         active_records = [r for r in records if not is_record_deleted(r)]
         for record in active_records:

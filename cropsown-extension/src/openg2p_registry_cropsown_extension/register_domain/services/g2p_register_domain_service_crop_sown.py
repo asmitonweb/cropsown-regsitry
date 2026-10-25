@@ -37,6 +37,8 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
         await refresh_crop_name_on_ingest(session, register_row)
 
     async def validate_domain_attributes(self, records: list[dict], session=None, **kwargs):
+        from .field_rules import validate_record_fields
+        await validate_record_fields(records)
         from .identity_verification import OANRegistrantAuthenticationService
         verifier = OANRegistrantAuthenticationService.get_component()
         if verifier:

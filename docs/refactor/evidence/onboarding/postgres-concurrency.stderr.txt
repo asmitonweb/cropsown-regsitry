@@ -1,4 +1,4 @@
-test_ambiguous_or_mismatched_existing_identity_fails_closed (test_farmer_reference_onboarding.OnboardingTests.test_ambiguous_or_mismatched_existing_identity_fails_closed) ... Executing <Task pending name='Task-1' coro=<OnboardingTests.asyncSetUp() running at /work/cropsown-extension/tests/test_farmer_reference_onboarding.py:58> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/local/lib/python3.12/asyncio/futures.py:389, Task.task_wakeup()] created at /usr/local/lib/python3.12/asyncio/base_events.py:448> cb=[_run_until_complete_cb() at /usr/local/lib/python3.12/asyncio/base_events.py:181] created at /usr/local/lib/python3.12/asyncio/runners.py:100> took 0.160 seconds
+test_ambiguous_or_mismatched_existing_identity_fails_closed (test_farmer_reference_onboarding.OnboardingTests.test_ambiguous_or_mismatched_existing_identity_fails_closed) ... Executing <Task pending name='Task-1' coro=<OnboardingTests.asyncSetUp() running at /work/cropsown-extension/tests/test_farmer_reference_onboarding.py:58> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/local/lib/python3.12/asyncio/futures.py:389, Task.task_wakeup()] created at /usr/local/lib/python3.12/asyncio/base_events.py:448> cb=[_run_until_complete_cb() at /usr/local/lib/python3.12/asyncio/base_events.py:181] created at /usr/local/lib/python3.12/asyncio/runners.py:100> took 0.106 seconds
 ok
 test_approval_releases_existing_dependency_without_recreating_intake (test_farmer_reference_onboarding.OnboardingTests.test_approval_releases_existing_dependency_without_recreating_intake) ... ok
 test_concurrent_duplicate_submission_and_restart_are_idempotent (test_farmer_reference_onboarding.OnboardingTests.test_concurrent_duplicate_submission_and_restart_are_idempotent) ... ok
@@ -16,6 +16,6 @@ test_uid_rotation_requires_update_approval_before_new_domain_reuse (test_farmer_
 test_unreferenced_kafka_update_does_not_onboard (test_farmer_reference_onboarding.OnboardingTests.test_unreferenced_kafka_update_does_not_onboard) ... ok
 
 ----------------------------------------------------------------------
-Ran 15 tests in 21.489s
+Ran 15 tests in 18.573s
 
 OK

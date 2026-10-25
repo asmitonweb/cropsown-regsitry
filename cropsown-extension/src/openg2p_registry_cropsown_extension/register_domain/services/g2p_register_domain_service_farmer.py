@@ -36,6 +36,8 @@ class G2PRegisterDomainServiceFarmer(G2PRegisterDomainService):
         raise FarmerReferenceError("FARMER_REFERENCE_CHANGE_REQUEST_REQUIRED")
 
     async def validate_domain_attributes(self, records: list[dict], session=None, **kwargs):
+        from .field_rules import validate_record_fields
+        await validate_record_fields(records)
         for rec in records or []:
             try:
                 validate_identity_fields(rec)
