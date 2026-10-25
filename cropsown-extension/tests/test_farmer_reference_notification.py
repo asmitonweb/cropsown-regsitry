@@ -60,5 +60,20 @@ class NotificationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             notification.notification_fields({**routed, 'first_name': 'Untrusted'})
 
+    def test_native_ingest_response_template_preserves_ack_errors_and_encodes_timestamp(self):
+        from datetime import datetime
+        package=Path(importlib.import_module(PACKAGE).__file__).parent
+        template=Environment().from_string((package/'templates/farmer_reference_ingest_response.json.j2').read_text())
+        for status,payload,message in [('SUCCESS',{'correlation_id':'synthetic-correlation'},''),
+                                       ('ERROR',None,'Invalid "identifier"\nretry')]:
+            data={'response_header':{'request_id':'synthetic','response_status':status,
+                'response_error_code':'TEST' if status=='ERROR' else '', 'response_error_message':message,
+                'response_timestamp':datetime(2026,10,25,12,0)},'response_body':{'response_payload':payload}}
+            rendered=json.loads(template.render(expanded=data))
+            self.assertEqual(rendered['response_header']['response_status'],status)
+            self.assertEqual(rendered['response_header']['response_error_message'],message)
+            self.assertIsInstance(rendered['response_header']['response_timestamp'],str)
+            self.assertEqual(rendered['response_body']['response_payload'],payload)
+
 
 if __name__=='__main__':unittest.main()

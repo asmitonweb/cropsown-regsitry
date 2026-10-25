@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-25T13:35:22.170212+00:00",
+  "checked_at": "2026-10-25T13:47:24.704814+00:00",
   "scope": "Crop receiving configuration and source regressions; live approved-source update is blocked",
   "result": "PARTIAL",
   "source_approved_update_acceptance": "NOT RUN",
@@ -68,5 +68,40 @@
   "runtime_recreation_command_completed": true,
   "runtime_readback_after_transport_probe": "BLOCKED",
   "upstream_sources_changed": false,
-  "personal_data_or_credentials_in_evidence": false
+  "personal_data_or_credentials_in_evidence": false,
+  "transport_probe_readback": {
+    "native_websub_callback_http": 200,
+    "actual_connector_worker_received": true,
+    "native_signed_partner_ingest_http": 500,
+    "new_source_approval": false,
+    "source_approved_update_acceptance": "NOT RUN"
+  },
+  "current_runtime_blockers": [
+    "Docker control API10-20s timeout",
+    "Crop fresh login25s timeout",
+    "Read-only PostgreSQL host connection5s timeout",
+    "Windows free RAM observed329-388MB of15720MB",
+    "Lead-owned source outgestion flag/topic/template/central approved change"
+  ],
+  "prepared_response_template": {
+    "source": "templates/farmer_reference_ingest_response.json.j2",
+    "native_jinja_cases_passed": 2,
+    "cases": [
+      "SUCCESS correlation ID preserved, timestamp string",
+      "ERROR null response payload, quoted/newline error message escaped"
+    ],
+    "new_install_metadata_binding": true,
+    "existing_database_publication": "NOT RUN - browser login timeout; use native update_data_model API",
+    "remaining_platform_error_limitation": "Errors before data-model response template resolution still reach native fallback JSON datetime serialization; no platform patch applied."
+  },
+  "upstream_error_evidence": {
+    "partner_resolution_http_read_timeout": true,
+    "fallback_json_datetime_typeerror": true,
+    "raw_traceback_not_committed": true
+  },
+  "owned_connector_worker_concurrency": {
+    "requested": 1,
+    "runtime_readback": "UNVERIFIED - Docker API timeout",
+    "stop_requested_for_resource_recovery": true
+  }
 }
