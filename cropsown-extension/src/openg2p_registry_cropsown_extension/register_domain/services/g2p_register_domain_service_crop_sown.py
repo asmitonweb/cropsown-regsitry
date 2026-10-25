@@ -31,6 +31,12 @@ _SECTION_LIFECYCLE_STAGE_MAP = {
     "cs_harvest_details": "HARVESTING_APPROVED",
 }
 
+def validate_production_season_fields(record):
+    """The same required values on section save and completed intake submit."""
+    G2PRegisterDomainServiceCropSown._validate_crop_year(record)
+    G2PRegisterDomainServiceCropSown._validate_production_season(record)
+
+
 class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
     async def post_ingest(self, register_id, register_row, session):
         from .farmer_name_projection import refresh_crop_name_on_ingest
@@ -106,8 +112,12 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
 
             is_common_intake = (sec_id == "cropsown_common_intake_record_section_01")
 
-            self._validate_crop_year(record)
-            self._validate_production_season(record)
+            # Native intake saves contain one section only. Identity and
+            # Production Season are separate sections on all four intake forms.
+            # Explicit blank season values still fail in their owning section.
+            fields = {key.rsplit(".", 1)[-1] for key in record if isinstance(key, str)}
+            if fields & {"crop_year", "production_season", "season"}:
+                validate_production_season_fields(record)
             if not is_common_intake:
                 self._validate_farmer_id(record)
             self._validate_fayda_fan_id(record)
@@ -291,10 +301,11 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
                     f"Sowing / Harvesting cannot create a new Crop Sown record. Please ensure a Cultivation/Crop Sown record already exists for this Farmer Identity."
                 )
 
-    def _validate_crop_year(self, record: dict) -> None:
+    @staticmethod
+    def _validate_crop_year(record: dict) -> None:
         crop_year = get_row_field(record, "crop_year")
         if crop_year is None or str(crop_year).strip() in ("", "None", "null", "Select"):
-            validation_error("Crop Year is required in Farmer Identity.")
+            validation_error("Crop Year: enter the year in the Production Season section.")
         val_str = str(crop_year).strip()
         if not val_str.isdigit():
             validation_error("Crop Year must contain only numeric digits (no letters, spaces, or special characters)")
@@ -305,10 +316,11 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
         if year is not None and year > current_year:
             validation_error("Crop Year must not be in the future")
 
-    def _validate_production_season(self, record: dict) -> None:
+    @staticmethod
+    def _validate_production_season(record: dict) -> None:
         season = get_row_field(record, "production_season") or get_row_field(record, "season")
         if season is None or str(season).strip() in ("", "None", "null", "Select"):
-            validation_error("Production Season is required in Farmer Identity.")
+            validation_error("Production Season: choose a season in the Production Season section.")
 
     def _validate_farmer_id(self, record: dict) -> None:
         """Farmer ids come from the farmer registry as FR- plus twelve digits."""
@@ -414,58 +426,37 @@ class G2PRegisterDomainServiceCropSown(G2PRegisterDomainService):
     ) -> None:
         if not change_request or not change_request.internal_record_id:
             return
-        if change_request.section_id not in ("cropsown_cropsown_record_section_01", "cropsown_common_intake_record_section_01"):
+        if change_request.section_id not in (
+            "cropsown_cropsown_record_section_01", "cropsown_common_intake_record_section_01",
+            "cropsown_intake_record_section_01", "cropsown_intake_season_section_01",
+            "cropsown_common_intake_season_section_01",
+        ):
             return
-
+        from ..models import G2PRegisterCropSown
         record = await session.get(G2PRegisterCropSown, change_request.internal_record_id)
         if not record:
             return
-
-        new_season = None
-        new_year = None
-
-        try:
-            from openg2p_registry_core.services.g2p_register_change_request_service import G2PRegisterChangeRequestService
-            cr_service = G2PRegisterChangeRequestService.get_component()
-            payload_obj = await cr_service._get_change_request_payload(change_request.change_request_id, session)
-            if payload_obj and hasattr(payload_obj, "change_payload") and payload_obj.change_payload:
-                items = (payload_obj.change_payload or {}).get("items", [])
-                for item in items:
-                    fname = item.get("field_name")
-                    if fname == "production_season":
-                        new_season = item.get("new_value")
-                    elif fname == "crop_year":
-                        new_year = item.get("new_value")
-        except Exception:
-            pass
-
-        sub_id = getattr(change_request, "submission_id", None)
-        if sub_id and (not new_season or not new_year):
-            from sqlalchemy import text
-            res = await session.execute(
-                text("SELECT production_season, crop_year FROM g2p_intake_form_crop_sowns WHERE submission_id = :sub_id"),
-                {"sub_id": sub_id}
-            )
-            row = res.fetchone()
-            if row:
-                if not new_season:
-                    new_season = row[0]
-                if not new_year:
-                    new_year = row[1]
-
-        if new_season and record.production_season:
-            p_clean = str(record.production_season).replace("CROP_SEASON_", "").strip().upper()
-            n_clean = str(new_season).replace("CROP_SEASON_", "").strip().upper()
-            if p_clean != n_clean:
-                validation_error(
-                    f"Production Season cannot be changed for an existing record via Change Request. (Existing: '{record.production_season}', Attempted: '{new_season}')"
-                )
-
-        if new_year and record.crop_year:
-            if str(new_year).strip() != str(record.crop_year).strip():
-                validation_error(
-                    f"Crop Year cannot be changed for an existing record via Change Request. (Existing: '{record.crop_year}', Attempted: '{new_year}')"
-                )
+        from openg2p_registry_core.services.g2p_register_change_request_service import G2PRegisterChangeRequestService
+        cr_service = G2PRegisterChangeRequestService.get_component()
+        payload = await cr_service._get_change_request_payload(change_request.change_request_id, session)
+        # Native payloads are lists of record dictionaries, not field-diff items.
+        # Omitted fields retain their value; an explicit clear is still a change.
+        for item in payload.change_payload or []:
+            if item.get("edit_action") == "DELETE" or item.get("internal_record_id", record.internal_record_id) != record.internal_record_id:
+                continue
+            for field, label in (("production_season", "Production Season"), ("crop_year", "Crop Year")):
+                established = getattr(record, field)
+                if field not in item or not established:
+                    continue
+                proposed = str(item[field] or "").strip()
+                existing = str(established).strip()
+                if field == "production_season":
+                    proposed = proposed.upper().removeprefix("CROP_SEASON_").removeprefix("SEASON_")
+                    existing = existing.upper().removeprefix("CROP_SEASON_").removeprefix("SEASON_")
+                if proposed != existing:
+                    validation_error(
+                        f"{label} cannot be changed for an existing Crop Sown record. Keep its original value."
+                    )
 
     async def _check_matching_season_across_sections(
         self, change_request: G2PRegisterChangeRequest, session: AsyncSession

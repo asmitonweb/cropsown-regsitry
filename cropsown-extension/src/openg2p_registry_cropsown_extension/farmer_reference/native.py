@@ -185,6 +185,20 @@ class ReferenceIntakeService(G2PIntakeFormDataService):
             for field, value in declared.items():
                 setattr(row, field, value)
             sections = await self._get_form_sections(submission.form_id, session)
+            # Required season fields moved out of Farmer Identity. Check the
+            # persisted root at submit too, before any Farmer lookup/CR, so a
+            # skipped Production Season section cannot bypass its validation.
+            if definition.register_mnemonic == "CropSown" and any(
+                section.section_mnemonic in {"cs_intake_season", "cs_common_intake_season"}
+                for section in sections
+            ):
+                from ..register_domain.services.g2p_register_domain_service_crop_sown import (
+                    validate_production_season_fields,
+                )
+                validate_production_season_fields({
+                    "crop_year": row.crop_year,
+                    "production_season": row.production_season,
+                })
             farmer = await farmer_definition(session)
             if any(section.section_register_id == farmer.register_id for section in sections):
                 raise FarmerReferenceError("FARMER_REFERENCE_INTAKE_METADATA_REQUIRES_ROOT_IDENTITY")
